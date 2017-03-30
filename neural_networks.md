@@ -36,3 +36,9 @@
 
 ## Simple Pattern Recognition Using a Perceptron
 
+-- See Code
+
+## A Steering Perception
+
+**backpropagation** Optimizing weights of a multi-layered network. Summed and fed forward through the network. Invovvles the sigmoid function.
+
