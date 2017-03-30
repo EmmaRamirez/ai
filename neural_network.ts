@@ -193,5 +193,33 @@ class Genetic {
 
             offSpringIndex += 2;
         }
+
+        this.sortPopulation();
     }
+
+    createPopulation(size, generate) {
+        let i, d, l;
+        this.population = [];
+        for (i = 0; i < size; i++) {
+            d = generate();
+            l = this.scoreSolution(d);
+            this.population[i] = {
+                data: d,
+                score: l
+            };
+        }
+        this.sortPopulation();
+    }
+
+    getSolution() {
+        return this.population[0].data;
+    }
+
+    sortPopulation() {
+        this.population.sort((a, b) => {
+            return a.score - b.score;
+        });
+    }
+
+    constructor() { }
 }
