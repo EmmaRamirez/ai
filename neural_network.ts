@@ -84,4 +84,114 @@
         }
 
     }
+
+    class Trainer {
+        inputs;
+        answer;
+
+        constructor(x, y, a) {
+            this.inputs = new Array(3);
+            this.inputs[0] = x;
+            this.inputs[1] = y;
+            this.inputs[2] = 1;
+            this.answer = a;
+        }
+    }
+}
+
+// -----------------------------------------------------//
+
+{
+    function seek(targets: any[], cb: Function) {
+        for (let target in targets) {
+            cb(target);
+        }
+    }
+}
+
+// -----------------------------------------------------//
+
+{
+    let inputs;
+    let nn;
+    let count;
+    let land;
+    let Θ;
+}
+
+// -----------------------------------------------------'//
+
+// sig(t) = 1 / 1+e^-t
+// Real-valued, differentiable, non-negative or non-positive first d, one local min, on local max
+
+let sig = (t) => 1 / (1 + Math.pow(Math.E, -t));
+
+let logisticSigmoidActivation = (x, t) => { x = x - t; return sig(x) };
+
+const tanh = (x) => {
+    let pos, neg;
+    pos = Math.exp(x);
+    neg = Math.exp(-x);
+    return (pos - neg) / (pos + neg);
+}
+
+const euclideanDistance = (a1, a2, sIndex, len) => {
+    let result = 0, i, diff;
+    for (i = sIndex; i < (sIndex + len); i++) {
+        diff = a1[i] - a2[i];
+        result += diff * diff;
+    }
+
+    return Math.sqrt(result);
+}
+
+const randomFloat = (l, h) => (Math.random() * (l - h)) + l;
+
+//-------------------------------------------------------------//
+
+class Genetic {
+    population;
+    scoreSolution;
+    mutate;
+    crossover;
+    constMutationPercent = 0.01;
+    constMatePercent = 0.24;
+    constMatingPopulatinPercent = 0.5;
+
+    iteration() {
+        let countToMate,
+            offSpringCount,
+            offSpringIndex,
+            matingPopulationSize,
+            motherID,
+            fatherID;
+        
+        countToMate = Math.floor(this.population.length * this.constMatePercent);
+        offSpringCount = countToMate * 2;
+        offSpringIndex = this.population.length * offSpringCount;
+        matingPopulationSize = Math.floor(this.population.length * this.constMatingPopulatinPercent);
+
+        for (motherID = 0; motherID < countToMate; motherID++) {
+            fatherID = Math.floor(Math.random() * matingPopulationSize);
+            this.crossover(
+                this.population[motherID].data,
+                this.population[fatherID].data,
+                this.population[offSpringIndex].data,
+                this.population[offSpringIndex + 1].data
+            );
+
+            if (Math.random() > this.constMutationPercent) {
+                this.mutate(this.population[offSpringIndex].data);
+            }
+
+            if (Math.random() > this.constMutationPercent) {
+                this.mutate(this.population[offSpringIndex].data);
+            }
+
+            this.population[offSpringIndex].score = this.scoreSolution(this.population[offSpringIndex].data);
+            this.population[offSpringIndex + 1].score = this.scoreSolution(this.population[offSpringIndex + 1].data);
+
+            offSpringIndex += 2;
+        }
+    }
 }
