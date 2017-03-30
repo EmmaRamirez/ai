@@ -1,6 +1,6 @@
 use rand::{Rng, thread_rng};
 
-// extend Clamp for Floaties
+// extend Clamp for Floaties -- it's essentially a binary activate function
 pub trait ClampExt {
     fn clamp(&self, lo: Self, hi: Self) -> Self;
 }
@@ -99,6 +99,7 @@ impl NeuralNet {
         }
     }
 
+    // use Option<> Generic to return None if weight size doesn't match what we require
     pub fn with_weights(input_count: usize, output_count: usize, hidden_layer_count: usize, neurons_per_hidden_layer: usize, weight: &f[32]) -> Option<NeuralNet> {
         let init = neurons_per_hidden_layer * (input_count + 1);
         let stride = neurons_per_hidden_layer * (neurons_per_hidden_layer + 1);
