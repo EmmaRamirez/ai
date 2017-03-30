@@ -1,5 +1,6 @@
 use rand::{Rng, thread_rng};
 
+// extend Clamp for Floaties
 pub trait ClampExt {
     fn clamp(&self, lo: Self, hi: Self) -> Self;
 }
