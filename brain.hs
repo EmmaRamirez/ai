@@ -44,11 +44,11 @@ initNeuronTraining jus neuron@(j, lambda, y, _) = if null deltas then neuron els
 
 trainNeuron :: Neuron -> [Neuron] -> [Synapse] -> Neuron
 trainNeuron (j, lambda, y, _) neurons synapses = (j, lambda, y, delta')
-    where delta' = y*(1-y)*sum [deltak*wjk | (sj, sk, wjk) <- synapses, (nk, _, _, deltak) <- neurons, sj == j && nk == sk]
+    where delta' = y * (1 - y) * sum [delta * wjk | (sj, sk, wjk) <- synapses, (nk, _, _, delta) <- neurons, sj == j && nk == sk]
 
 trainSynapse :: [Neuron] -> Double -> Synapse -> Synapse
 trainSynapse neurons alpha (i, j, w) = (i, j, w')
-    where w' = w + head [alpha * yi * deltaj | (ni, _, yi, _) <- neurons, (nj, _, _, delta) <- neurons, ni == i && nj == j]
+    where w' = w + head [alpha * yi * delta | (ni, _, yi, _) <- neurons, (nj, _, _, delta) <- neurons, ni == i && nj == j]
 
 computeTraining :: [Double] -> Double -> Network -> Network
 computeTraining expectedValues alpha (neurons, synapses, inputIndices, outputIndices) = (neurons', synapses', inputIndices, outputIndices)
@@ -64,7 +64,7 @@ main = do
         outputs = [6]
         network0 = (neurons, synapses, inputs, outputs)
         network1 = computeEvaluation [1.0, 1.0, 1.0] network0
-        network2 = computeTraining [0.0] 1.0 network1
+        network2 = computeTraining [0.0, 1.0, 0.0] network1
         network3 = computeEvaluation [1.0, 1.0, 1.0] network2
     putStrLn $ "initial network\n" ++ show network0
     putStrLn $ "evaluation\n" ++ show network1
