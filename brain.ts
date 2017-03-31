@@ -14,14 +14,6 @@ interface NeuronLayer {
     neurons: Neuron[]
 } 
 
-const computeNeuronSum = (neuronLayer: NeuronLayer, bias: Bias) => {
-    return neuronLayer.neurons.map(neuron => neuron.value * neuron.weight).reduce((acc, value) => { return acc + value }, bias)
-}
- 
- const sigmoid = (input: number) => {
-    return (1 / 1 + Math.pow(Math.E, input)); 
-}
-
 class NeuralNet implements NeuralNet {
     constructor (inputCount, outputCount, hiddenLayerCount, neuronsPerHiddenLayer) {
 
@@ -72,5 +64,10 @@ class Neuron implements Neuron {
         this.weight = weight; 
     }
 }
+
+const sigmoid = (input: number) => {
+    return (1 / 1 + Math.pow(Math.E, input)); 
+}
+
  
 // determine threshold - sigmoid of computeNeuronSum
