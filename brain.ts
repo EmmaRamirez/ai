@@ -68,6 +68,3 @@ class Neuron implements Neuron {
 const sigmoid = (input: number) => {
     return (1 / 1 + Math.pow(Math.E, input)); 
 }
-
- 
-// determine threshold - sigmoid of computeNeuronSum
